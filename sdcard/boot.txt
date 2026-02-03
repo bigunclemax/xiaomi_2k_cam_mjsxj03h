@@ -1,0 +1,30 @@
+# turn off leds
+gpio clear 38; gpio clear 39
+
+# blink red 3 times
+gpio clear 39; sleep 1; gpio set 39; sleep 1;
+gpio clear 39; sleep 1; gpio set 39; sleep 1;
+gpio clear 39; sleep 1; gpio set 39; sleep 1;
+
+setenv updatetool fatload mmc 0
+saveenv
+
+# flash kernel
+run uknor
+
+# blink blue 3 times
+gpio clear 39
+gpio clear 38; sleep 1; gpio set 38; sleep 1;
+gpio clear 38; sleep 1; gpio set 38; sleep 1;
+gpio clear 38; sleep 1; gpio set 38; sleep 1;
+
+# flash rootfs
+run urnor
+
+# turn on white
+gpio set 39
+
+sleep 10
+
+run bootcmd
+
